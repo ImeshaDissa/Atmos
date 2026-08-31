@@ -16,6 +16,8 @@ router.get('/weather', async (req, res) => {
       humidity: city.main.humidity,
       windSpeed: city.wind.speed,
       description: city.weather[0].description,
+      condition: city.weather[0].main,   
+  isDay: city.weather[0].icon.endsWith('d'),
       comfortIndex: calculateComfortIndex(city)
     }));
 
