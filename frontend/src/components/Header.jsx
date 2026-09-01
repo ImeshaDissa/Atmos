@@ -1,5 +1,6 @@
 import atmosLogo from '../assets/atmos.svg';
 import { useTheme } from '../context/ThemeContext';
+import LogoutButton from './LogoutButton';
 
 export default function Header({ query, onQueryChange }) {
   const { isDark, toggleTheme } = useTheme();
@@ -31,6 +32,8 @@ export default function Header({ query, onQueryChange }) {
         />
       </div>
 
+      
+
       {/* Theme toggle (replaces hamburger) */}
       <button
         onClick={toggleTheme}
@@ -41,6 +44,8 @@ export default function Header({ query, onQueryChange }) {
       >
         {isDark ? '🌙' : '☀️'}
       </button>
+
+       <LogoutButton/> 
     </header>
   );
 }

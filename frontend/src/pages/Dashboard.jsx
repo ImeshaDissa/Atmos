@@ -4,6 +4,7 @@ import Header from '../components/Header';
 import SkyHero from '../components/SkyHero';
 import CityList from '../components/CityList';
 import { useTheme } from '../context/ThemeContext';
+import { useAuth0 } from '@auth0/auth0-react';
 
 function Dashboard() {
   const [cities, setCities] = useState([]);
@@ -11,16 +12,30 @@ function Dashboard() {
   const [error, setError] = useState(null);
   const [query, setQuery] = useState('');
   const { isDark } = useTheme();
+  const { getAccessTokenSilently } = useAuth0();
 
   useEffect(() => {
-    api.get('/weather')
-      .then(res => { setCities(res.data); setLoading(false); })
-      .catch(err => {
+    const fetchWeatherData = async () => {
+      try {
+        const token = await getAccessTokenSilently();
+        const res = await api.get('/weather', {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+        setCities(res.data);
+        setLoading(false);
+      } catch (err) {
         console.error(err);
         setError('Failed to load weather data. Is the backend running?');
         setLoading(false);
-      });
-  }, []);
+      } finally {
+        setLoading(false);
+      }
+
+    };
+    fetchWeatherData();
+  }, [getAccessTokenSilently]);
 
   const filtered = cities.filter(c =>
     c.city.toLowerCase().includes(query.toLowerCase())
