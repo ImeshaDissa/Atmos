@@ -139,12 +139,10 @@ npm install
 Create a `.env` file in the backend root using the following variables:
 
 ```env
-PORT=4000
+PORT=5000
 OPENWEATHER_API_KEY=your_openweather_api_key
 AUTH0_DOMAIN=your_auth0_domain
 AUTH0_AUDIENCE=your_auth0_audience
-AUTH0_CLIENT_ID=your_auth0_client_id
-AUTH0_CLIENT_SECRET=your_auth0_client_secret
 ```
 
 For the frontend, create a `.env` file in the frontend folder:
@@ -185,10 +183,20 @@ The dashboard is protected behind Auth0 authentication.
 
 ### MFA note
 
-The assignment says "Enable MFA via email verification." In practice, Auth0 does not allow email verification to act as the only MFA factor. For a compliant setup, email-based verification must be paired with another standard factor such as OTP or an authenticator app.
+The assignment specifies "Enable MFA via email verification." In practice, Auth0
+does not allow email verification to act as the only MFA factor — it must be
+paired with a second standard factor. This app enables both Email and
+One-Time Password (OTP) as factors, with the policy set to "Always require MFA."
 
-To meet the assignment intent while staying within Auth0's platform rules, this app is configured to support MFA as a multi-factor flow where email is used alongside OTP. This is a deliberate workaround for the platform limitation and ensures users can still complete the required second-factor flow.
-
+One additional platform behavior worth noting: on first enrollment, Auth0
+defaults users to the OTP/authenticator-app flow rather than presenting a
+factor-selection screen, even with "Show MFA options" enabled. This was
+verified not to be a misconfiguration — checked via tenant login logs (which
+confirmed the MFA challenge is genuinely being enforced), the MFA policy
+settings, application/connection-level settings, and user email verification
+status. It appears to be Auth0's fixed behavior of defaulting to the stronger
+available factor. Email remains enabled and available as a valid second
+factor for this tenant.
 ---
 
 ## Known Limitations
