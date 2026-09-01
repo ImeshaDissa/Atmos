@@ -20,7 +20,7 @@ export default function CityCard({ city }) {
                 </span>
             </div>
 
-            <p className={`text-md mt-3 capitalize ${isDark ? 'text-slate400' : 'text-slate-600'}`}>
+            <p className={`text-md mt-3 capitalize ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
                 #{rank}
             </p>
 
